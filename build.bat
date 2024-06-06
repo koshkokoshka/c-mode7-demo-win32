@@ -1,0 +1,2 @@
+@echo off
+cl /c /GS- /O1 main.c && Crinkler.exe /CRINKLER /COMPMODE:VERYSLOW /TINYHEADER /TINYIMPORT /NOINITIALIZERS /UNALIGNCODE /SUBSYSTEM:WINDOWS main.obj kernel32.lib user32.lib gdi32.lib
