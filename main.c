@@ -1,14 +1,14 @@
 #include <Windows.h>
 #include <math.h>
 
-#define SCREEN_WIDTH 512
-#define SCREEN_HEIGHT 512
+#define WIDTH 512
+#define HEIGHT 512
 
 const static BITMAPINFO bmi = {
     .bmiHeader = {
         .biSize = sizeof(BITMAPINFOHEADER),
-        .biWidth = SCREEN_WIDTH,
-        .biHeight = SCREEN_HEIGHT,
+        .biWidth = WIDTH,
+        .biHeight = HEIGHT,
         .biPlanes = 1,
         .biBitCount = 32,
         .biCompression = BI_RGB,
@@ -33,8 +33,8 @@ void WinMainCRTStartup() {
             WS_POPUP | WS_VISIBLE,
             0,
             0,
-            SCREEN_WIDTH,
-            SCREEN_HEIGHT,
+            WIDTH,
+            HEIGHT,
             NULL,
             NULL,
             NULL,
@@ -55,10 +55,10 @@ void WinMainCRTStartup() {
         static int time;
         time += 1;
 
-        static BYTE pixels[SCREEN_WIDTH * SCREEN_HEIGHT * 4];
+        static BYTE pixels[WIDTH * HEIGHT * 4];
 
-        for (int y = 0; y < SCREEN_HEIGHT; ++y) {
-            double z = -0.5 + ((double)y / SCREEN_HEIGHT);
+        for (int y = 0; y < HEIGHT; ++y) {
+            double z = -0.5 + ((double)y / HEIGHT);
 
             double v = (double)y;
             v /= z;
@@ -68,23 +68,23 @@ void WinMainCRTStartup() {
                 v += time;
             }
 
-            for (int x = 0; x < SCREEN_WIDTH; ++x) {
+            for (int x = 0; x < WIDTH; ++x) {
 
-                double u = -SCREEN_WIDTH/2.0 + (double)x;
+                double u = -WIDTH / 2.0 + (double)x;
                 u /= z;
 
                 BYTE color = ((BYTE)u) ^ ((BYTE)v);
                 if (z < 0) {
                     z = -z;
                 }
-                pixels[((y * SCREEN_WIDTH) + x) * 4 + 1] = (BYTE)((double)color * z);
+                pixels[((y * WIDTH) + x) * 4 + 1] = (BYTE)((double)color * z);
             }
         }
 
         StretchDIBits(
             hdc,
-            0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
-            0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
+            0, 0, WIDTH, HEIGHT,
+            0, 0, WIDTH, HEIGHT,
             &pixels,
             &bmi,
             DIB_RGB_COLORS,
